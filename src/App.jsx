@@ -84,8 +84,9 @@ export default function App() {
         )}
       </div>
       {view == "error" && (
-        <div style={{ textAlign: "center", padding: "300px" }}>
-          <img className=" img-fluid"
+        <div style={{ textAlign: "center", padding: "310px" }}>
+          <img
+            className=" img-fluid"
             src="public/3737258.jpg"
             alt="Error"
             // style={{ maxWidth: "100%", height: "auto" }}
