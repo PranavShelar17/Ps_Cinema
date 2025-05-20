@@ -179,7 +179,7 @@ export default function WishList(props) {
     }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#2a2a2f" }} className="p-3">
+    <div style={{ minHeight: "100vh", background: "#2a2a2f" }} className="p-3 my-lg-5 my-5">
       <div className="row">
         {wishlistdata.map((movie) => (
           <div
