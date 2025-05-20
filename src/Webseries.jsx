@@ -68,7 +68,7 @@ https://api.themoviedb.org/3/discover/tv?api_key=${apiKey}&with_genres=${genre.i
   }
 
   return (
-    <div className="series-page bg-dark text-white p-4 my-4">
+    <div className="series-page bg-dark text-white p-4 my-5">
       {/* <h1 className="mb-5 text-center">📺 TV Series by Genre</h1> */}
       {Object.keys(seriesByGenre).map((genre) => (
         <div key={genre} className="mb-5">

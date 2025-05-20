@@ -57,9 +57,9 @@ export default function TrendingMoviesSlider(props) {
   }
 
   return (
-    <div className="my-lg-0 p-4 ">
+    <div className="my-lg-0 p-5 p-lg-4   my-5  mt-lg-0 mt-5 ">
       <h2
-        className="text-2xl   text-white my-lg-1 my-5"
+        className="text-2xl   text-white my-lg-5 mb-lg-0 my-5"
         style={{
           fontSize: "36px",
           fontWeight: 700,

@@ -12,7 +12,7 @@ export default function MoviePage(props) {
     <>
       {/* <div className=" my-5 my-lg-4"></div> */}
       <div
-        className="row radius d-flex         p-2     text-center"
+        className="row radius d-flex    my-5     p-4     text-center"
         style={{ background: "linear-gradient(to right, #434343, #000000)" }}
       >
         {moviedata

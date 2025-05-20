@@ -43,6 +43,7 @@ export default function MovieDetail(props) {
   }
 
   function handleFavourite(movieId) {
+    if (!movieId) return;
     props.onFavourite(movieId);
   }
 
@@ -76,13 +77,8 @@ export default function MovieDetail(props) {
               >
                 <div className="col-md-3 d-flex justify-content-end p-3 position-relative">
                   <button
-                    className="position-absolute rounded-circle bg-danger text-white rounded-2"
-                    style={{
-                      top: 10,
-                      right: 10,
-                      width: 40,
-                      height: 40,
-                    }}
+                    className="position-absolute wishlist-btn  "
+                 
                     onClick={() => handleFavourite(e.id)}
                   >
                     <i className="bi bi-suit-heart-fill"></i>

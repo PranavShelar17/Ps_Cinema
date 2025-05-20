@@ -11,7 +11,7 @@ import axios from "axios";
 import MoviePage from "./MoviePage";
 import MovieDetail from "./MovieDetail";
 import WishList from "./WishList";
-import { Navigate } from "react-router-dom";
+
 import SignUpPage from "./SignUpPage";
 import TrendingMoviesSlider from "./TrendingMoviesSlider";
 import HorrorMoviesSlider from "./HorrorMoviesSlider";
@@ -35,7 +35,7 @@ export default function App() {
   let [view, setView] = useState("Allmovies");
   let [flagLoader, setFlagLoader] = useState(false);
   // let [movieDataTrending, setMovieDataTrending] = useState([]);
-  let [searchMovieData, SetSearchData] = useState("game");
+  let [searchMovieData, SetSearchData] = useState("");
   let [moviedetail, setMovieDetail] = useState([]);
   let [wishlist, setWishList] = useState([]);
   // let [favourites, setFavourites] = useState([]);
@@ -56,38 +56,35 @@ export default function App() {
   //   console.log(moviedata);
 
   // }, []);
-  useEffect(() => {
-    async function fetchMovies(searchMovieData) {
-      setFlagLoader(true);
+ useEffect(() => {
+  async function fetchMovies(searchMovieData) {
+    if (!searchMovieData) return;
 
+    setFlagLoader(true);
+
+    try {
       const response = await axios.get(
         `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchMovieData}`
       );
-      const Data = response.data;
-      //`https://www.omdbapi.com/?s=${searchMovieData}&apikey=${apiKey}`
 
-      if (Data.results && Data.results.length > 0) {
-        setMovieData(Data.results);
-        // console.log(data.results);
+      if (response.data.results?.length > 0) {
+        setMovieData(response.data.results);
+        setView("moviepage");
       } else {
         setMovieData([]);
-        console.log("No movies found");
+        setView("error");
       }
-      setFlagLoader(false);
-    }
-
-    // Call the function inside useEffect
-    if (searchMovieData) {
-      fetchMovies(searchMovieData);
-      setView("moviepage");
-    } else {
-      setFlagLoader(true);
+    } catch (err) {
+      console.error("Search failed:", err);
       setView("error");
-      setFlagLoader(false);
     }
 
-    // fetchMovies(searchMovieData);
-  }, [searchMovieData]);
+    setFlagLoader(false);
+  }
+
+  fetchMovies(searchMovieData);
+}, [searchMovieData]);
+
   // useEffect(() => {
   //   async function mainMoviedata(movieDataStart) {
   //      setFlagLoader(true);
@@ -159,7 +156,7 @@ export default function App() {
         //localStorage.setItem("user", JSON.stringify(user));
 
         // Navigate to dashboard or homepage
-        Navigate("/dashboard");
+        // Navigate("/dashboard");
       })
       .catch((error) => {
         console.error("Google sign-in failed:", error.message);

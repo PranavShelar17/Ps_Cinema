@@ -132,6 +132,7 @@
 import React, { useState } from "react";
 
 export default function Navbar(props) {
+  // const [isMenuOpen, setMenuOpen] = useState(false);
   let { view } = props;
   let [searchText, setSearchText] = useState("");
 
@@ -151,9 +152,9 @@ export default function Navbar(props) {
     props.onWishListClick();
   }
 
-  function handleSearch(e) {
-    setSearchText(e.target.value);
-  }
+  // function handleSearch(e) {
+  //   setSearchText(e.target.value);
+  // }
 
   function handleBackSpace() {
     props.onBackSpace();
@@ -163,7 +164,7 @@ export default function Navbar(props) {
   }
 
   function handleSubmit(e) {
-    e.preventDefault();
+   e.preventDefault();
     props.onSearch(searchText);
   }
 
@@ -180,92 +181,54 @@ export default function Navbar(props) {
 
   return (
     <>
-      <div className="row p-2 fixed-top" style={{ background: "#1e1f26" }}>
-        {view === "detail" && (
-          <div
-            className="position-absolute ps-5 mx-5  text-warning "
-            onClick={handleBackSpace}
-          >
-            <button className="button-84">
-              <i className="fa-solid fa-square-caret-left fa-beat-fade"></i>
-            </button>
-          </div>
-        )}
+       <nav className="movie-navbar fixed-top ">
+  <div className="nav-container">
+    <span 
+      className="logo" 
+      onClick={() => handleLogoClick("Allmovies")}
+    >
+      <span className="film-icon">🎬</span>
+      <span className="logo-text">Movie<span className="logo-highlight">Hub</span></span>
+    </span>
 
-        {/* Left: Logo */}
-        <div
-          className="col-2 my-3 my-lg-1 ps-lg-5    col-lg-3 col-md-4 col-sm-6  text-white cursor-pointer align-items-lg-center fw-bolder"
-          // style={{ fontSize: " 1.4rem", fontWeight: "500" }}
-          onClick={() => handleLogoClick("Allmovies")}
-        >
-          SKFlix
-        </div>
+    <div className="nav-controls">
+      {/* Show Back button only if not on Allmovies */}
+      {view !== "Allmovies" && (
+        <button className="nav-btn back-btn" onClick={handleBackSpace}>
+          <span className="btn-icon">←</span>
+          <span className="btn-text">Back</span>
+        </button>
+      )}
 
-        {/* Center: Register Button */}
-        <div className="col-2 d-flex col-lg-3 col-md-4 col-sm-6 justify-content-center align-items-center">
-          {/* <button
-            className=" unified-button purple ms-2 "
-            onClick={handleRegisterClick}
-          >
-            Register
-          </button> */}
-          {/* <button
-                className="btn btn-primary log  mx-2 "
-                onClick={() => {
-                  handleFormButtonClick("SignUp");
-                }}
-              >
-                SignUp
+       <form className="search-form" onSubmit={handleSubmit}>
+            <div className="search-group">
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Search movies..."
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
+              />
+              <button type="submit" className="search-btn">
+                <i className="bi bi-search"></i>
               </button>
-
-              <button
-                className="btn btn-primary log  mx-2"
-                onClick={() => {
-                  handleFormButtonClick("Login");
-                }}
-              >
-                Login
-              </button>  */}
-          <button
-            className="unified-button dark"
-            onClick={handleWebSeriesClick}
-          >
-            TV Shows
-          </button>
-        </div>
-
-        {/* Right: Wishlist & Search */}
-        <div className="col-8 col-lg-6    col-md-4 col-sm-6   d-flex    align-items-lg-center    justify-content-lg-end ">
-          <button
-            className="rounded dark  rounded-5 bg-danger border-black border border-2 text-white "
-            onClick={handleWishListClick}
-          >
-            <i className="bi bi-suit-heart-fill "></i>
-          </button>
-
-          <form className=" d-flex" onSubmit={handleSubmit}>
-            <input
-              type="search"
-              value={searchText}
-              style={{ borderRadius: "10px" }}
-              onChange={handleSearch}
-              className="bg-info-subtle custom-search-input"
-              placeholder="Search movies"
-            />
-            <button
-              type="submit"
-              className="unified-button dark ms-2 "
-              style={{
-                borderRadius: "10px",
-                background: "#444444",
-                color: "white",
-              }}
-            >
-              Search
-            </button>
+            </div>
           </form>
-        </div>
+
+      <div className="action-buttons">
+        <button className="nav-btn wishlist-btn" onClick={handleWishListClick}>
+          <span className="btn-icon">❤️</span>
+          <span className="btn-text">Wishlist</span>
+        </button>
+
+        <button className="nav-btn webseries-btn" onClick={handleWebSeriesClick}>
+          <span className="btn-icon">📺</span>
+          <span className="btn-text">Web Series</span>
+        </button>
       </div>
+    </div>
+  </div>
+</nav>
     </>
   );
 }
