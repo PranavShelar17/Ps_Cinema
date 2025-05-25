@@ -10,6 +10,7 @@ export default function MoviePage(props) {
 
   return (
     <>
+    <div className=" my-lg-0 my-5 p-lg-0 p-4  ">f</div>
       {/* <div className=" my-5 my-lg-4"></div> */}
       <div
         className="row radius d-flex    my-5     p-4     text-center"

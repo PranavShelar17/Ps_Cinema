@@ -80,7 +80,7 @@
 //             style={{ minHeight: "100vh", background: "#444444" }}
 //           >
 //             <div
-//               className="row radius d-flex 
+//               className="row radius d-flex
 //          p-2 m-lg-3  m-2   text-center"
 //               style={{ background: "#444444" }}
 //             >
@@ -129,6 +129,7 @@ export default function WishList(props) {
   let [wishlistdata, setWishListData] = useState([]);
 
   let { wishlist } = props; // expecting array of movie IDs
+  console.log(wishlist);
 
   useEffect(() => {
     if (!wishlist || wishlist.length === 0) {
@@ -140,12 +141,15 @@ export default function WishList(props) {
     const apiKey = "685e2f09bfed147ad18e97893e8a01ff";
 
     // Create an array of promises for each movie fetch
-    const promises = wishlist.map((movieId) =>
+    const promises = wishlist.map(({ id, media_type }) =>
       axios
-        .get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`)
+        .get(
+          `https://api.themoviedb.org/3/${media_type}/${id}?api_key=${apiKey}`
+        )
+
         .then((res) => res.data)
         .catch((err) => {
-          console.error(`Failed to fetch movie ${movieId}:`, err);
+          console.error(`Failed to fetch movie ${media_type}${id}:`, err);
           return null; // skip this movie if error occurs
         })
     );
@@ -160,7 +164,7 @@ export default function WishList(props) {
 
   if (flagLoader) {
     return (
-      <div className="text-center my-5 d-flex justify-content-center">
+      <div className="text-center my-5 my-lg-3 d-flex justify-content-center">
         <RingLoader size={50} color={"green"} />
       </div>
     );
@@ -173,31 +177,41 @@ export default function WishList(props) {
       </div>
     );
   }
-   function handleWishListImgClick(WishM) {
-      props.onWishListImgClick(WishM)
-      
-    }
+  function handleWishListImgClick(WishM) {
+    props.onWishListImgClick(WishM);
+  }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#2a2a2f" }} className="p-3 my-lg-5 my-5">
+    <>
+    <div className=" my-lg-0 my-5 p-lg-0 p-4">f</div>
+    <div
+      style={{ minHeight: "100vh", background: "#2a2a2f" }}
+      className="p-3  p-lg-0 my-lg-5 my-5"
+    >
       <div className="row">
         {wishlistdata.map((movie) => (
           <div
             key={movie.id}
             className="col-lg-2 col-md-4 col-sm-6 col-12 my-lg-5 mx-lg-2 text-center"
-            style={{ background: "#242429", borderRadius: "20px", padding: "10px" }}
+            style={{
+              background: "#242429",
+              borderRadius: "20px",
+              padding: "10px",
+            }}
           >
-            <img onClick={()=>handleWishListImgClick(movie)}
-              className="img-fluid mb-2"
+            <img
+              onClick={() => handleWishListImgClick(movie)}
+              className="img-fluid mb-2 p-lg-0 p-5 pb-lg-0 p-0 "
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              alt={movie.title}
+            alt={movie.title || movie.name}
+
             />
-            <div className="title text-white">{movie.title}</div>
+            <div className="title text-white">{movie.title||movie.name}</div>
             <div className="rating text-white">{movie.release_date}</div>
           </div>
         ))}
       </div>
     </div>
+    </>
   );
 }
-

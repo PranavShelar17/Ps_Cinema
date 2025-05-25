@@ -3,8 +3,10 @@ import React from "react";
 export default function MovieProduct(props) {
   let { M } = props;
   //console.log(M);
-  function handleImageClick(data) {
-    props.onImageClick(data);
+  function handleImageClick(data,F) {
+    console.log(data,F);
+    
+    props.onImageClick(data,F);
   }
   if (M.poster_path == "") return null;
 
@@ -20,7 +22,7 @@ export default function MovieProduct(props) {
         <div className="image">
           <img
             className=" img-fluid  "
-            onClick={() => handleImageClick(M)}
+            onClick={() => handleImageClick(M,"movie")}
             src={
               M.poster_path
                 ? `https://image.tmdb.org/t/p/w500${M.poster_path}`

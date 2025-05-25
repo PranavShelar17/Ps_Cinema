@@ -181,14 +181,14 @@ export default function Navbar(props) {
 
   return (
     <>
-       <nav className="movie-navbar fixed-top ">
+       <nav className="movie-navbar fixed-top  ">
   <div className="nav-container">
     <span 
       className="logo" 
       onClick={() => handleLogoClick("Allmovies")}
     >
       <span className="film-icon">🎬</span>
-      <span className="logo-text">Movie<span className="logo-highlight">Hub</span></span>
+      <span className="logo-text">SK<span className="logo-highlight">Flix</span></span>
     </span>
 
     <div className="nav-controls">

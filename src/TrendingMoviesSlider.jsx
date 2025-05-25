@@ -38,26 +38,28 @@ export default function TrendingMoviesSlider(props) {
     infinite: true,
     speed: 500,
     slidesToShow: 8,
-    slidesToScroll: 2,
+    slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 3000,
     responsive: [
       { breakpoint: 1024, settings: { slidesToShow: 4 } },
-      { breakpoint: 600, settings: { slidesToShow: 3 } },
-      { breakpoint: 480, settings: { slidesToShow: 1 } },
+      { breakpoint: 600, settings: { slidesToShow: 2} },
+      { breakpoint: 480, settings: { slidesToShow: 2 } },
     ],
   };
 
   if (flagLoader) {
     return (
-      <div className="  text-center my-5 d-flex justify-content-center">
+      <div className="  text-center my-5 my-lg-2 d-flex justify-content-center">
         <RingLoader size={50} color={"green"} className="" />
       </div>
     );
   }
 
   return (
-    <div className="my-lg-0 p-5 p-lg-4   my-5  mt-lg-0 mt-5 ">
+     <>
+    <div className=" my-lg-0 my-5 p-lg-0 ">f</div>
+    <div className="my-lg-0 p-4 p-lg-4      mt-lg-0 mt-5 ">
       <h2
         className="text-2xl   text-white my-lg-5 mb-lg-0 my-5"
         style={{
@@ -118,5 +120,6 @@ export default function TrendingMoviesSlider(props) {
         ))}
       </Slider>
     </div>
+    </>
   );
 }
