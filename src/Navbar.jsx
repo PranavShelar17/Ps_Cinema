@@ -188,7 +188,7 @@ export default function Navbar(props) {
       onClick={() => handleLogoClick("Allmovies")}
     >
       <span className="film-icon">🎬</span>
-      <span className="logo-text">SK<span className="logo-highlight">Flix</span></span>
+      <span className="logo-text">PS <span className="logo-highlight">Cinema</span></span>
     </span>
 
     <div className="nav-controls">
@@ -224,6 +224,16 @@ export default function Navbar(props) {
         <button className="nav-btn webseries-btn" onClick={handleWebSeriesClick}>
           <span className="btn-icon">📺</span>
           <span className="btn-text">Web Series</span>
+        </button>
+
+        <button className="nav-btn ai-btn" onClick={() => props.onLogoClick("ai-reco")}>
+          <span className="btn-icon">🤖</span>
+          <span className="btn-text">AI Recs</span>
+        </button>
+
+        <button className="nav-btn guide-btn" onClick={() => props.onLogoClick("guide")}>
+          <span className="btn-icon">📖</span>
+          <span className="btn-text">App Guide</span>
         </button>
       </div>
     </div>

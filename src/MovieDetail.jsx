@@ -10,7 +10,7 @@ export default function MovieDetail(props) {
   // let { movieDataTrending } = props;
   let { moviedetail } = props;
   let [cast, setCast] = useState([]);
-  let [mediatype,setMediaType]=useState("")
+  let [detail, setDetail] = useState(null);
   let [flagLoader, setFlagLoader] = useState(false);
   console.log(moviedetail);
 
@@ -59,33 +59,34 @@ export default function MovieDetail(props) {
   //   fetchCast();
   // }, [moviedetail]);
   useEffect(() => {
-  async function fetchCast() {
-    if (!moviedetail || moviedetail.length === 0) return;
+    async function fetchData() {
+      if (!moviedetail || moviedetail.length === 0) return;
 
-    const { id, media_type: originalMediaType, release_date, title } = moviedetail[0];
-    if (!id) return;
+      const { id, release_date, title } = moviedetail[0];
+      if (!id) return;
 
-    // Determine media_type based on presence of release_date or title
-    const media_type = release_date || title ? "movie" : "tv";
-    setMediaType(media_type)
+      // Determine media_type based on presence of release_date or title
+      const media_type = release_date || title ? "movie" : "tv";
 
-    const apiKey = "685e2f09bfed147ad18e97893e8a01ff";
-    setFlagLoader(true);
+      const apiKey = "685e2f09bfed147ad18e97893e8a01ff";
+      setFlagLoader(true);
 
-    try {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/${media_type}/${id}/credits?api_key=${apiKey}`
-      );
-      setCast(response.data.cast);
-    } catch (error) {
-      console.error("Failed to fetch cast:", error);
+      try {
+        const [creditsRes, detailsRes] = await Promise.all([
+          axios.get(`https://api.themoviedb.org/3/${media_type}/${id}/credits?api_key=${apiKey}`),
+          axios.get(`https://api.themoviedb.org/3/${media_type}/${id}?api_key=${apiKey}&append_to_response=videos,watch/providers`)
+        ]);
+        setCast(creditsRes.data.cast);
+        setDetail(detailsRes.data);
+      } catch (error) {
+        console.error("Failed to fetch movie data:", error);
+      }
+
+      setFlagLoader(false);
     }
 
-    setFlagLoader(false);
-  }
-
-  fetchCast();
-}, [moviedetail]);
+    fetchData();
+  }, [moviedetail]);
 
 
   if (flagLoader) {
@@ -103,7 +104,17 @@ export default function MovieDetail(props) {
     props.onFavourite(e, mediatype);
   }
 
-  // const dialogRef = useRef(null);
+  const movieObj = moviedetail && moviedetail[0] ? moviedetail[0] : {};
+  const mediaType = movieObj.release_date || movieObj.title ? "movie" : "tv";
+  const watchUrl = detail?.homepage || `https://www.google.com/search?q=Watch+${encodeURIComponent(movieObj.title || movieObj.name)}+online`;
+  
+  const trailer = detail?.videos?.results?.find(
+    (vid) => vid.site === "YouTube" && (vid.type === "Trailer" || vid.type === "Teaser")
+  );
+  const trailerUrl = trailer ? `https://www.youtube.com/watch?v=${trailer.key}` : null;
+  
+  const providers = detail?.["watch/providers"]?.results;
+  const findUrl = providers?.IN?.link || providers?.US?.link || `https://www.justwatch.com/us/search?q=${encodeURIComponent(movieObj.title || movieObj.name)}`;
 
   return (
     <>
@@ -136,7 +147,7 @@ export default function MovieDetail(props) {
                 <div className="col-md-3 d-flex justify-content-end p-3 position-relative">
                   <button
                     className="position-absolute wishlist-btn  "
-                    onClick={() => handleFavourite(e,mediatype)}
+                    onClick={() => handleFavourite(e, mediaType)}
                   >
                     <i className="bi bi-suit-heart-fill"></i>
                   </button>
@@ -156,6 +167,46 @@ export default function MovieDetail(props) {
                     <strong>Rating:</strong> {e.vote_average}
                   </p>
                   <p>{e.overview}</p>
+                  
+                  {/* Watch & Find Action Buttons */}
+                  <div className="mt-4 d-flex flex-wrap gap-3">
+                    {watchUrl && (
+                      <a
+                        href={watchUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-warning btn-lg d-flex align-items-center gap-2 text-dark shadow-sm"
+                        style={{ borderRadius: "30px", fontWeight: "600" }}
+                      >
+                        <i className="bi bi-play-fill" style={{ fontSize: "1.3rem" }}></i>
+                        Watch Now
+                      </a>
+                    )}
+                    {trailerUrl && (
+                      <a
+                        href={trailerUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-outline-light btn-lg d-flex align-items-center gap-2 shadow-sm"
+                        style={{ borderRadius: "30px", fontWeight: "600" }}
+                      >
+                        <i className="bi bi-youtube" style={{ fontSize: "1.3rem", color: "#ff0000" }}></i>
+                        Play Trailer
+                      </a>
+                    )}
+                    {findUrl && (
+                      <a
+                        href={findUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-outline-info btn-lg d-flex align-items-center gap-2 text-white shadow-sm"
+                        style={{ borderRadius: "30px", fontWeight: "600", borderColor: "#0dcaf0" }}
+                      >
+                        <i className="bi bi-search" style={{ fontSize: "1rem" }}></i>
+                        Where to Watch
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

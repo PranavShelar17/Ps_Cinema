@@ -105,7 +105,7 @@
 .nav-action-button:hover {
   background-color: #5c5c5c;
 }
-*/ .custom-search-input {
+.custom-search-input {
   background-color: #626262;
   border: 1px solid #888;
   border-radius: 12px;
@@ -527,6 +527,16 @@
 .webseries-btn:hover {
   background: rgba(41, 128, 185, 0.3);
   color: #74b9ff;
+}
+
+.ai-btn:hover {
+  background: rgba(245, 166, 35, 0.3);
+  color: #f5a623;
+}
+
+.guide-btn:hover {
+  background: rgba(46, 204, 113, 0.3);
+  color: #2ecc71;
 }
 
 .btn-icon {

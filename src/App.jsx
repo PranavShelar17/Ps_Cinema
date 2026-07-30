@@ -20,6 +20,8 @@ import KidsMoviesSlider from "./KidsMoviesSlider";
 import BollywoodMoviesSlider from "./BollywoodMoviesSlider";
 import WarMoviesSlider from "./WarMoviesSlider";
 import Webseries from "./Webseries";
+import AIRecommendation from "./AIRecommendation";
+import AppGuide from "./AppGuide";
 
 export default function App() {
   let [moviedata, setMovieData] = useState([]);
@@ -314,6 +316,14 @@ export default function App() {
           wishlist={wishlist}
           onWishListImgClick={handleWishListImgClick}
         />
+      )}
+
+      {view == "ai-reco" && (
+        <AIRecommendation onImageClick={handleImageClick} />
+      )}
+
+      {view == "guide" && (
+        <AppGuide />
       )}
       {/* {view == "SignUp" && (
               <div className="productbg">
