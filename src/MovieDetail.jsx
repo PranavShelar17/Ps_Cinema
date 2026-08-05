@@ -1,5 +1,5 @@
-import axios, { Axios } from "axios";
-import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { RingLoader } from "react-spinners";
 
 // import React, { useState, useEffect, useRef } from "react";
@@ -268,48 +268,3 @@ export default function MovieDetail(props) {
   );
 }
 
-{
-  /* <div>
-      <dialog ref={dialogRef}>
-        <p>This is a dialog</p>
-        <button onClick={() => dialogRef.current.close(`e`)}>Close</button>
-      </dialog>
-      <button onClick={() => dialogRef.current.showModal(`s`)}>Open Dialog</button>
-    </div> */
-}
-{
-  /* <div className="container">
-    <div className="row" key={moviedetail.id}>
-      <div className="col-3">
-        <img
-          className="img-fluid"
-          src={`https://image.tmdb.org/t/p/w500${moviedetail.poster_path}`}
-          alt={moviedetail.title}
-        />
-      </div>
-      <div className="col-5">
-        <h2>{moviedetail.title}</h2>
-        <p><strong>Release Date:</strong> {moviedetail.release_date}</p>
-        <p><strong>Rating:</strong> {moviedetail.vote_average}</p>
-      </div>
-      <div className="col-4">
-        <p>{moviedetail.overview}</p>
-      </div>
-    </div>
-  </div> */
-}
-
-{
-  /* <div className="container">
-      {moviedetail.map((e)=>{
-        return (
-        <div className="row" key={e.id}>
-        <div className="col-3">{`https://image.tmdb.org/t/p/w500${e.poster_path}`}</div>
-        <div className="col-5"></div>
-        <div className="col-4"></div>
-      </div>
-      )})}
-       <img  className=" img-fluid" src={} alt="" /> 
-      
-      </div> */
-}

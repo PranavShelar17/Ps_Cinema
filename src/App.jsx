@@ -13,6 +13,8 @@ import MovieDetail from "./MovieDetail";
 import WishList from "./WishList";
 
 import SignUpPage from "./SignUpPage";
+import Login from "./Login";
+import { subscribeToAuthChanges, logoutUser } from "../firebaseUser";
 import TrendingMoviesSlider from "./TrendingMoviesSlider";
 import HorrorMoviesSlider from "./HorrorMoviesSlider";
 import DramaMoviesSlider from "./DramaMoviesSlider";
@@ -24,6 +26,7 @@ import AIRecommendation from "./AIRecommendation";
 import AppGuide from "./AppGuide";
 
 export default function App() {
+  let [user, setUser] = useState(null);
   let [moviedata, setMovieData] = useState([]);
   let [view, setView] = useState("Allmovies");
   let [previousView, setPreviousView] = useState("Allmovies");
@@ -35,10 +38,13 @@ export default function App() {
   let [wishlist, setWishList] = useState([]);
   // let [favourites, setFavourites] = useState([]);
   const apiKey = "685e2f09bfed147ad18e97893e8a01ff";
-  // const provider = new GoogleAuthProvider();
-  // const auth = getAuth();
-  //const auth = getAuth();
-  //1e84da90
+
+  useEffect(() => {
+    const unsubscribe = subscribeToAuthChanges((currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     async function fetchMovies(searchMovieData) {
@@ -204,11 +210,15 @@ export default function App() {
             onBackSpace={handleBackSpace}
             // onRegisterClick={handleRegisterClick}
             onWebSeriesClick={handleWebSeriesClick}
-            // onFormButtonClick={handleFormButtonClick}
-            // onSignUpLogin={handleSignUpLogin}
-            // onPopular={handlePopular}
-            // onTop={handleTop}
-            // onUpcoming={handleUpcoming}
+            user={user}
+            onLogout={async () => {
+              try {
+                await logoutUser();
+                setView("Allmovies");
+              } catch (e) {
+                console.error("Logout failed:", e);
+              }
+            }}
           />
         </div>
         {view == "Allmovies" && (
@@ -325,30 +335,16 @@ export default function App() {
       {view == "guide" && (
         <AppGuide />
       )}
-      {/* {view == "SignUp" && (
-              <div className="productbg">
-                <SignUpPage
-                  view={view}
-                  signupstatus={signupstatus}
-                  onFormButtonClick={handleFormButtonClick}
-                  onSignUpFormSubmit={handleSignUpFormSubmit}
-                  onLoginClick={handleLoginClick}
-                />
-              </div>
-            )} */}
-      {/* {view == "Login" && (
-                    <div className=" text-white productbg">
-                      <Login
-
-                        user={user}
-                        view={view}
-                        loginStatus={loginStatus}
-                        onClick={handleFormButtonClick}
-                        onLoginFormSubmit={handleLoginFormSubmit}
-                        onLoginClick={handleLoginClick}
-                      />
-                    </div>
-                  )} */}
+      {view == "SignUp" && (
+        <div className="productbg">
+          <SignUpPage onNavigate={(v) => setView(v)} />
+        </div>
+      )}
+      {view == "Login" && (
+        <div className="productbg">
+          <Login onNavigate={(v) => setView(v)} />
+        </div>
+      )}
     </>
   );
 }

@@ -7,7 +7,13 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "./firebase";
+import { 
+  createUserWithEmailAndPassword, 
+  signInWithEmailAndPassword, 
+  signOut, 
+  onAuthStateChanged 
+} from "firebase/auth";
+import { db, auth } from "./firebase";
 
 
 async function getProductsFromBackend() {
@@ -44,10 +50,45 @@ async function addProductToBackend(product) {
   return product;
 }
 
+// Auth functions
+async function signUpUser(email, password) {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    return userCredential.user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function loginUser(email, password) {
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return userCredential.user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function logoutUser() {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    throw error;
+  }
+}
+
+function subscribeToAuthChanges(callback) {
+  return onAuthStateChanged(auth, callback);
+}
+
 export {
   getProductsFromBackend,
   // getSingleProductFromBackend,
   updateBackendProduct,
   deleteBackendProduct,
   addProductToBackend,
+  signUpUser,
+  loginUser,
+  logoutUser,
+  subscribeToAuthChanges
 };

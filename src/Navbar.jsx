@@ -133,7 +133,7 @@ import React, { useState } from "react";
 
 export default function Navbar(props) {
   // const [isMenuOpen, setMenuOpen] = useState(false);
-  let { view } = props;
+  let { view, user } = props;
   let [searchText, setSearchText] = useState("");
 
   function handlePopular() {
@@ -235,6 +235,18 @@ export default function Navbar(props) {
           <span className="btn-icon">📖</span>
           <span className="btn-text">App Guide</span>
         </button>
+
+        {user ? (
+          <button className="nav-btn btn-danger text-white ml-2" onClick={props.onLogout} style={{background: '#dc3545', border: 'none'}}>
+            <span className="btn-icon">🚪</span>
+            <span className="btn-text">Logout</span>
+          </button>
+        ) : (
+          <button className="nav-btn btn-primary text-white ml-2" onClick={() => props.onLogoClick("Login")} style={{background: '#0d6efd', border: 'none'}}>
+            <span className="btn-icon">👤</span>
+            <span className="btn-text">Login</span>
+          </button>
+        )}
       </div>
     </div>
   </div>
